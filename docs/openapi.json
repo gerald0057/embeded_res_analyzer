@@ -1,0 +1,691 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "嵌入式资源分析工具",
+    "description": "用于统计嵌入式模块资源占用的分析工具",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/config/": {
+      "get": {
+        "tags": [
+          "配置管理"
+        ],
+        "summary": "Get Configuration",
+        "description": "获取当前配置\n\nReturns:\n    完整的应用配置",
+        "operationId": "get_configuration_config__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppConfig"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "配置管理"
+        ],
+        "summary": "Update Configuration",
+        "description": "更新配置\n\nArgs:\n    config_data: 配置数据\n    \nReturns:\n    更新后的配置",
+        "operationId": "update_configuration_config__put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppConfig"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config/toolchain": {
+      "put": {
+        "tags": [
+          "配置管理"
+        ],
+        "summary": "Update Toolchain Config",
+        "description": "更新工具链配置\n\nArgs:\n    toolchain_data: 工具链配置数据\n    \nReturns:\n    更新后的配置",
+        "operationId": "update_toolchain_config_config_toolchain_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToolchainUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppConfig"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config/toolchain/test": {
+      "post": {
+        "tags": [
+          "配置管理"
+        ],
+        "summary": "Test Toolchain Configuration",
+        "description": "测试工具链配置\n\nReturns:\n    测试结果",
+        "operationId": "test_toolchain_configuration_config_toolchain_test_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolchainTestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config/toolchain/autodetect": {
+      "get": {
+        "tags": [
+          "配置管理"
+        ],
+        "summary": "Autodetect Toolchain",
+        "description": "自动检测系统中的工具链\n\nReturns:\n    检测结果",
+        "operationId": "autodetect_toolchain_config_toolchain_autodetect_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AutoDetectResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config/cache": {
+      "delete": {
+        "tags": [
+          "配置管理"
+        ],
+        "summary": "Clear Config Cache",
+        "description": "清除配置缓存\n\n强制重新加载配置文件",
+        "operationId": "clear_config_cache_config_cache_delete",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analysis/file": {
+      "post": {
+        "tags": [
+          "分析功能"
+        ],
+        "summary": "Analyze File",
+        "description": "分析单个文件\n\nArgs:\n    request: 分析请求\n    \nReturns:\n    分析结果",
+        "operationId": "analyze_file_analysis_file_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeFileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analysis/directory": {
+      "post": {
+        "tags": [
+          "分析功能"
+        ],
+        "summary": "Analyze Directory",
+        "description": "分析目录\n\nArgs:\n    request: 分析请求\n    \nReturns:\n    分析结果",
+        "operationId": "analyze_directory_analysis_directory_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeDirectoryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analysis/status": {
+      "get": {
+        "tags": [
+          "分析功能"
+        ],
+        "summary": "Get Analysis Status",
+        "description": "获取分析状态\n\nReturns:\n    工具链状态信息",
+        "operationId": "get_analysis_status_analysis_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "description": "根路径，返回前端页面",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "健康检查端点",
+        "operationId": "health_check_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnalysisConfig": {
+        "properties": {
+          "cache_enabled": {
+            "type": "boolean",
+            "title": "Cache Enabled",
+            "description": "启用缓存",
+            "default": true
+          },
+          "cache_ttl": {
+            "type": "integer",
+            "title": "Cache Ttl",
+            "description": "缓存生存时间（秒）",
+            "default": 3600
+          },
+          "recursive_depth": {
+            "type": "integer",
+            "title": "Recursive Depth",
+            "description": "递归扫描深度",
+            "default": 5
+          }
+        },
+        "type": "object",
+        "title": "AnalysisConfig",
+        "description": "分析相关配置"
+      },
+      "AnalyzeDirectoryRequest": {
+        "properties": {
+          "directory": {
+            "type": "string",
+            "title": "Directory",
+            "description": "目录路径"
+          },
+          "pattern": {
+            "type": "string",
+            "title": "Pattern",
+            "description": "文件匹配模式",
+            "default": "*.o"
+          },
+          "recursive": {
+            "type": "boolean",
+            "title": "Recursive",
+            "description": "是否递归查找",
+            "default": false
+          },
+          "detailed": {
+            "type": "boolean",
+            "title": "Detailed",
+            "description": "是否获取详细信息",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "directory"
+        ],
+        "title": "AnalyzeDirectoryRequest",
+        "description": "分析目录请求"
+      },
+      "AnalyzeFileRequest": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path",
+            "description": "文件路径"
+          },
+          "detailed": {
+            "type": "boolean",
+            "title": "Detailed",
+            "description": "是否获取详细信息",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path"
+        ],
+        "title": "AnalyzeFileRequest",
+        "description": "分析文件请求"
+      },
+      "AppConfig": {
+        "properties": {
+          "toolchain": {
+            "$ref": "#/components/schemas/ToolchainConfig"
+          },
+          "ui": {
+            "$ref": "#/components/schemas/UIConfig"
+          },
+          "analysis": {
+            "$ref": "#/components/schemas/AnalysisConfig"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "description": "配置版本",
+            "default": "1.0.0"
+          }
+        },
+        "type": "object",
+        "required": [
+          "toolchain"
+        ],
+        "title": "AppConfig",
+        "description": "应用完整配置",
+        "example": {
+          "analysis": {
+            "cache_enabled": true,
+            "cache_ttl": 3600,
+            "recursive_depth": 5
+          },
+          "toolchain": {
+            "arch": "riscv64",
+            "readelf_path": "/opt/Xuantie-900-gcc-elf-newlib-x86_64-V2.10.2/bin/riscv64-unknown-elf-readelf",
+            "size_path": "/opt/Xuantie-900-gcc-elf-newlib-x86_64-V2.10.2/bin/riscv64-unknown-elf-size"
+          },
+          "ui": {
+            "default_pattern": "*.o",
+            "recent_paths": [
+              "/path/to/project1",
+              "/path/to/project2"
+            ],
+            "theme": "light"
+          },
+          "version": "1.0.0"
+        }
+      },
+      "AutoDetectResponse": {
+        "properties": {
+          "size": {
+            "type": "object",
+            "title": "Size"
+          },
+          "readelf": {
+            "type": "object",
+            "title": "Readelf"
+          }
+        },
+        "type": "object",
+        "required": [
+          "size",
+          "readelf"
+        ],
+        "title": "AutoDetectResponse",
+        "description": "自动检测响应"
+      },
+      "ConfigUpdateRequest": {
+        "properties": {
+          "toolchain": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ToolchainUpdateRequest"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "工具链配置"
+          },
+          "ui": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ui",
+            "description": "UI配置"
+          },
+          "analysis": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysis",
+            "description": "分析配置"
+          }
+        },
+        "type": "object",
+        "title": "ConfigUpdateRequest",
+        "description": "配置更新请求"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ToolchainConfig": {
+        "properties": {
+          "size_path": {
+            "type": "string",
+            "title": "Size Path",
+            "description": "size工具完整路径",
+            "default": ""
+          },
+          "readelf_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Readelf Path",
+            "description": "readelf工具路径（可选）"
+          },
+          "arch": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arch",
+            "description": "目标架构，如riscv64、arm-none-eabi等"
+          }
+        },
+        "type": "object",
+        "title": "ToolchainConfig",
+        "description": "工具链配置",
+        "example": {
+          "arch": "riscv64",
+          "readelf_path": "/opt/Xuantie-900-gcc-elf-newlib-x86_64-V2.10.2/bin/riscv64-unknown-elf-readelf",
+          "size_path": "/opt/Xuantie-900-gcc-elf-newlib-x86_64-V2.10.2/bin/riscv64-unknown-elf-size"
+        }
+      },
+      "ToolchainTestResponse": {
+        "properties": {
+          "initialized": {
+            "type": "boolean",
+            "title": "Initialized"
+          },
+          "tools": {
+            "type": "object",
+            "title": "Tools"
+          },
+          "overall": {
+            "type": "string",
+            "title": "Overall"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "type": "object",
+        "required": [
+          "initialized",
+          "tools",
+          "overall"
+        ],
+        "title": "ToolchainTestResponse",
+        "description": "工具链测试响应"
+      },
+      "ToolchainUpdateRequest": {
+        "properties": {
+          "size_path": {
+            "type": "string",
+            "title": "Size Path",
+            "description": "size工具路径"
+          },
+          "readelf_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Readelf Path",
+            "description": "readelf工具路径"
+          },
+          "arch": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arch",
+            "description": "目标架构"
+          }
+        },
+        "type": "object",
+        "required": [
+          "size_path"
+        ],
+        "title": "ToolchainUpdateRequest",
+        "description": "工具链更新请求"
+      },
+      "UIConfig": {
+        "properties": {
+          "theme": {
+            "type": "string",
+            "title": "Theme",
+            "description": "界面主题",
+            "default": "light"
+          },
+          "recent_paths": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Recent Paths",
+            "description": "最近访问路径"
+          },
+          "default_pattern": {
+            "type": "string",
+            "title": "Default Pattern",
+            "description": "默认文件匹配模式",
+            "default": "*.o"
+          }
+        },
+        "type": "object",
+        "title": "UIConfig",
+        "description": "UI相关配置"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
