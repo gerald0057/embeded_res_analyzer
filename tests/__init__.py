@@ -1,0 +1,1 @@
+"""Tests for embedded_analyzer package."""
